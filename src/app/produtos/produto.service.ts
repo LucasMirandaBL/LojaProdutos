@@ -5,7 +5,6 @@ import { Produto } from './produto.model';
 import { map, tap } from 'rxjs/operators';
 import { ToastService } from '../toast/toast.service';
 
-// Interface para a estrutura do produto retornada pela Fake Store API
 interface FakeStoreProduct {
   id: number;
   title: string;
@@ -80,11 +79,8 @@ export class ProdutoService {
   }
 
   excluirProduto(id: number): Observable<void> {
-    // Fake Store API não exclui dados, ele retorna o objeto excluído.
-    // O tipo de retorno é void porque não estamos interessados no objeto retornado
-    // e sim na conclusão da operação.
     return this.http.delete<FakeStoreProduct>(`${this.apiUrl}/${id}`).pipe(
-      map(() => undefined) // Mapeia o retorno para void
+      map(() => undefined)
     );
   }
 }

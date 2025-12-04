@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProdutoService } from '../produto.service';
 import { Produto } from '../produto.model';
-import { catchError, of, Observable, finalize } from 'rxjs'; // Import finalize
+import { catchError, of, Observable, finalize } from 'rxjs';
 
 @Component({
   selector: 'app-produto-formulario',
@@ -26,7 +26,7 @@ export class ProdutoFormularioComponent implements OnInit {
     private produtoService: ProdutoService,
     private router: Router,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef // Inject ChangeDetectorRef
+    private cdr: ChangeDetectorRef 
   ) {
     this.produtoFormulario = this.fb.group({
       id: [null],
@@ -52,14 +52,14 @@ export class ProdutoFormularioComponent implements OnInit {
             this.erro = 'Não foi possível carregar o produto para edição. Tente novamente mais tarde.';
             return of(undefined);
           }),
-          finalize(() => { // Add finalize block here
+          finalize(() => { 
             this.carregando = false;
-            this.cdr.detectChanges(); // Force change detection
+            this.cdr.detectChanges();
           })
         ).subscribe(produto => {
           if (produto) {
             this.produtoFormulario.patchValue(produto);
-            this.cdr.detectChanges(); // Force change detection
+            this.cdr.detectChanges();
           }
         });
       }
