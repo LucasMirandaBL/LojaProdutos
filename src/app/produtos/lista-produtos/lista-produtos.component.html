@@ -1,0 +1,48 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Produtos Disponíveis</h2>
+
+  <div *ngIf="carregando" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+    <p>Carregando produtos...</p>
+  </div>
+
+  <div *ngIf="erro" class="alert alert-danger" role="alert">
+    {{ erro }}
+  </div>
+
+  <div *ngIf="!carregando && !erro && produtos.length === 0" class="alert alert-info" role="alert">
+    Nenhum produto encontrado.
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <form class="d-flex flex-grow-1 me-3">
+      <input class="form-control me-2" type="search" placeholder="Buscar por nome ou categoria" aria-label="Buscar" [(ngModel)]="termoBusca" name="termoBusca" (ngModelChange)="buscarProdutos()" (blur)="buscarProdutos()">
+    </form>
+    <button class="btn btn-primary" (click)="novoProduto()">Adicionar Novo Produto</button>
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col" *ngFor="let produto of produtos">
+      <div class="card h-100 shadow-sm">
+        <img [src]="produto.imagem" class="card-img-top product-image" alt="{{ produto.nome }}">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ produto.nome }}</h5>
+          <p class="card-text text-muted">{{ produto.categoria }}</p>
+          <p class="card-text description-preview">{{ produto.descricao }}</p>
+          <div class="mt-auto">
+            <p class="card-text fs-4 fw-bold text-success">{{ produto.preco | currency:'BRL':'symbol':'1.2-2':'pt' }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <button class="btn btn-info btn-sm" (click)="editarProduto(produto.id)">Detalhes / Editar</button>
+              <button class="btn btn-danger btn-sm" (click)="excluirProduto(produto.id)">Excluir</button>
+            </div>
+            <button class="btn btn-success w-100 mt-2" (click)="adicionarAoCarrinho(produto)">
+              <i class="bi bi-cart-plus me-2"></i> Adicionar ao Carrinho
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
