@@ -1,0 +1,176 @@
+@use '../styles/variables' as *;
+@use 'sass:color';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: $font-family-sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: $light-color;
+  border-bottom: 1px solid #eaeaea;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  .logo {
+    display: flex;
+    align-items: center;
+
+    a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: $dark-color;
+      font-weight: 600;
+      font-size: 1.5rem;
+
+      img {
+        height: 40px;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  .navigation {
+    ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin: 0 1rem;
+
+        a {
+          text-decoration: none;
+          color: $secondary-color;
+          font-weight: 500;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .carrinho-badge-link {
+    position: relative;
+    text-decoration: none;
+    color: $dark-color;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    display: inline-block; // CORREÇÃO IMPORTANTE
+
+    &:hover {
+      color: $primary-color;
+    }
+
+    .bi-cart {
+      font-size: 1.5rem;
+      color: $dark-color;
+      margin-right: 0; // CORREÇÃO
+    }
+
+    .carrinho-badge {
+      position: absolute;
+      top: -10px; 
+      right: -10px;
+      background-color: $danger-color;
+      color: $light-color;
+      border-radius: 50%;
+      padding: 0.1rem 0.4rem;
+      font-size: 0.75rem;
+      line-height: 1;
+      min-width: 20px;
+      text-align: center;
+      border: 1px solid $light-color;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .login-btn {
+    padding: 0.5rem 1rem;
+    background-color: $primary-color;
+    color: $light-color;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: color.adjust($primary-color, $lightness: -10%);
+    }
+  }
+}
+
+.content {
+  flex-grow: 1;
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
+
+.footer {
+  padding: 1.5rem 2rem;
+  background-color: $light-color;
+  border-top: 1px solid #eaeaea;
+  text-align: center;
+  color: $secondary-color;
+}
+
+.carrinho-badge-link {
+  position: relative;
+  display: inline-block; // necessário para sobrepor
+  text-decoration: none;
+  color: $dark-color;
+}
+
+.carrinho-badge-link .bi-cart {
+  font-size: 1.6rem;
+  margin: 0;
+  padding: 0;
+  color: $dark-color;
+}
+
+.carrinho-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  min-width: 18px;
+  text-align: center;
+  line-height: 1;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+}
+

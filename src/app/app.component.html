@@ -1,0 +1,29 @@
+<div class="container">
+  <header class="header">
+    <div class="logo">
+      <a href="/">
+        <img src="assets/imgs/logo.png" alt="LucLu Store">
+        <span>LucLu Store</span>
+      </a>
+    </div>
+    <nav class="navigation">
+      <ul>
+        <li><a routerLink="/">Início</a></li>
+        <li><a routerLink="/produtos">Produtos</a></li>
+        <li><a routerLink="/contato">Contato</a></li>
+        <li><a routerLink="/pedidos">Meus Pedidos</a></li>
+      </ul>
+    </nav>
+    <div class="actions">
+      <app-carrinho-contador></app-carrinho-contador>
+      <a routerLink="/login" class="login-btn">Login</a>
+    </div>
+  </header>
+  <main class="content">
+    <app-toast-container></app-toast-container>
+    <router-outlet></router-outlet>
+  </main>
+  <footer class="footer">
+    <p>&copy; 2025 LucLu Store. Todos os direitos reservados.</p>
+  </footer>
+</div>
