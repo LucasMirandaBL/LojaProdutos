@@ -1,0 +1,48 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Meus Pedidos</h2>
+
+  <div *ngIf="carregando" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+    <p>Carregando pedidos...</p>
+  </div>
+
+  <div *ngIf="erro" class="alert alert-danger" role="alert">
+    {{ erro }}
+  </div>
+
+  <div *ngIf="!carregando && !erro && pedidos.length === 0" class="alert alert-info" role="alert">
+    Você ainda não fez nenhum pedido. <a routerLink="/produtos">Comece a comprar!</a>
+  </div>
+
+    <div *ngIf="pedidos.length > 0" class="list-group">
+      <div class="list-group-item mb-3" *ngFor="let pedido of pedidos">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">Pedido #{{ pedido.id.substring(0, 8) }}...</h5>
+          <small>{{ pedido.dataPedido | date:'medium' }}</small>
+        </div>
+        <p class="mb-1">Valor Total: <span class="fw-bold">{{ pedido.valorTotal | currency:'BRL':'symbol':'1.2-2':'pt' }}</span></p>
+        <small class="text-muted">Comprador: {{ pedido.comprador.nomeCompleto }} ({{ pedido.comprador.email }})</small>
+
+        <div class="mt-2">
+          <h6>Itens do Pedido:</h6>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of pedido.itens">
+              <div>
+                {{ item.produto.nome }} x {{ item.quantidade }}
+              </div>
+              <span>{{ (item.produto.preco * item.quantidade) | currency:'BRL':'symbol':'1.2-2':'pt' }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-4 p-3 border-top">
+        <h5 class="d-flex justify-content-between">
+          <span>Total Geral de Pedidos:</span>
+          <span class="fw-bold text-primary">{{ totalGeralPedidos | currency:'BRL':'symbol':'1.2-2':'pt' }}</span>
+        </h5>
+      </div>
+    </div>
+</div>
