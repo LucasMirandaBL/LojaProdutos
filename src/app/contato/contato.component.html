@@ -1,0 +1,84 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12 text-center mb-5">
+      <h1 class="display-4">Entre em Contato</h1>
+      <p class="lead">Adoraríamos ouvir de você! Preencha o formulário abaixo ou use um dos nossos canais de contato.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Company Information -->
+    <div class="col-lg-5 mb-5">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body p-4">
+          <h3 class="card-title mb-4"><i class="bi bi-building me-2"></i>Nossa Empresa</h3>
+          <p class="card-text">
+            <strong>LucLu Store</strong><br>
+            Sua loja de confiança para os melhores produtos.
+          </p>
+          <hr>
+          <ul class="list-unstyled">
+            <li class="mb-3 d-flex align-items-center">
+              <i class="bi bi-geo-alt-fill me-3 text-primary fs-4"></i>
+              <span>Rua das Flores, 123, Cidade Exemplo, EX</span>
+            </li>
+            <li class="mb-3 d-flex align-items-center">
+              <i class="bi bi-telephone-fill me-3 text-primary fs-4"></i>
+              <span>(11) 98765-4321</span>
+            </li>
+            <li class="mb-3 d-flex align-items-center">
+              <i class="bi bi-envelope-fill me-3 text-primary fs-4"></i>
+              <span>contato@lucaslucenastore.com</span>
+            </li>
+            <li class="mb-3 d-flex align-items-center">
+              <i class="bi bi-clock-fill me-3 text-primary fs-4"></i>
+              <span>Segunda a Sexta, das 9h às 18h</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="col-lg-7 mb-5">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <h3 class="card-title mb-4"><i class="bi bi-pencil-square me-2"></i>Envie uma Mensagem</h3>
+          <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nome Completo</label>
+              <input type="text" class="form-control" id="name" name="name" required ngModel #name="ngModel" [class.is-invalid]="name.invalid && name.touched">
+              <div *ngIf="name.invalid && name.touched" class="invalid-feedback">
+                Por favor, insira seu nome.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Endereço de E-mail</label>
+              <input type="email" class="form-control" id="email" name="email" required email ngModel #email="ngModel" [class.is-invalid]="email.invalid && email.touched">
+              <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
+                Por favor, insira um e-mail válido.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="subject" class="form-label">Assunto</label>
+              <input type="text" class="form-control" id="subject" name="subject" required ngModel #subject="ngModel" [class.is-invalid]="subject.invalid && subject.touched">
+               <div *ngIf="subject.invalid && subject.touched" class="invalid-feedback">
+                Por favor, insira o assunto.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label">Sua Mensagem</label>
+              <textarea class="form-control" id="message" name="message" rows="5" required ngModel #message="ngModel" [class.is-invalid]="message.invalid && message.touched"></textarea>
+              <div *ngIf="message.invalid && message.touched" class="invalid-feedback">
+                Por favor, escreva sua mensagem.
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100" [disabled]="contactForm.invalid">
+              <i class="bi bi-send-fill me-2"></i>Enviar Mensagem
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
