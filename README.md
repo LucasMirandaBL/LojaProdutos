@@ -78,6 +78,8 @@ src/
 │   └── toast.service.ts      # Serviço para gerenciar notificações toast
 ├── assets/
 │   └── imgs/                 # Imagens e outros recursos estáticos (ex: logo.png)
+├── environments/
+│   └── environment.ts/       # Configurações por ambiente.
 └── main.ts                   # Ponto de entrada da aplicação
 └── index.html                # Página HTML principal
 └── styles.scss               # Estilos globais

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Produto } from './produto.model';
 import { map, tap } from 'rxjs/operators';
 import { ToastService } from '../toast/toast.service';
+import { evironment } from '../../environments/environment';
 
 interface FakeStoreProduct {
   id: number;
@@ -22,7 +23,7 @@ interface FakeStoreProduct {
   providedIn: 'root'
 })
 export class ProdutoService {
-  private apiUrl = 'https://fakestoreapi.com/products';
+  private apiUrl = `${evironment.apiUrl}/products`; 
 
   constructor(private http: HttpClient, private toastService: ToastService) { }
 
