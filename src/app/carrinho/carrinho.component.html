@@ -1,0 +1,169 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Seu Carrinho de Compras</h2>
+
+  <ng-container *ngIf="(carrinhoItens$ | async) as itensCarrinho">
+    <div *ngIf="itensCarrinho.length === 0" class="alert alert-info" role="alert">
+      Seu carrinho está vazio. <a routerLink="/produtos">Adicionar produtos</a>
+    </div>
+
+    <div *ngIf="itensCarrinho.length > 0">
+      <div class="card mb-3" *ngFor="let item of itensCarrinho">
+        <div class="row g-0 align-items-center">
+          <div class="col-md-2">
+            <img [src]="item.produto.imagem" class="img-fluid rounded-start cart-item-image" alt="{{ item.produto.nome }}">
+          </div>
+          <div class="col-md-7">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.produto.nome }}</h5>
+              <p class="card-text text-muted">{{ item.produto.categoria | titlecase }}</p>
+              <p class="card-text">
+                <small class="text-body-secondary">Preço Unitário: {{ item.produto.preco | currency:'BRL':'symbol':'1.2-2':'pt' }}</small>
+              </p>
+              <div class="d-flex align-items-center mb-2">
+                <label for="quantidade-{{item.produto.id}}" class="me-2">Quantidade:</label>
+                <div class="input-group input-group-sm w-25">
+                  <button class="btn btn-outline-secondary" type="button" (click)="decrementarQuantidade(item.produto.id!)">-</button>
+                  <input type="text" class="form-control text-center" id="quantidade-{{item.produto.id}}" [value]="item.quantidade" readonly>
+                  <button class="btn btn-outline-secondary" type="button" (click)="incrementarQuantidade(item.produto.id!)">+</button>
+                </div>
+              </div>
+              <p class="card-text fw-bold">
+                Subtotal: {{ (item.produto.preco * item.quantidade) | currency:'BRL':'symbol':'1.2-2':'pt' }}
+              </p>
+            </div>
+          </div>
+          <div class="col-md-3 text-end pe-3">
+            <button class="btn btn-danger btn-sm" (click)="removerItem(item.produto.id!)">Remover</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-4 p-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">Subtotal:</h4>
+          <h4 class="mb-0 text-primary">{{ (totalCarrinho$ | async) | currency:'BRL':'symbol':'1.2-2':'pt' }}</h4>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-secondary" routerLink="/produtos">Continuar Comprando</button>
+          <button class="btn btn-warning" (click)="limparCarrinho()">Limpar Carrinho</button>
+          <button class="btn btn-success" (click)="iniciarFinalizacaoCompra()">Finalizar Compra</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Checkout Modal Content -->
+  <ng-template #checkoutModalContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Detalhes do Comprador e Pagamento</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="checkoutForm" (ngSubmit)="finalizarCompra()">
+        <h5>Informações do Comprador</h5>
+        <div class="mb-3">
+          <label for="nomeCompleto" class="form-label">Nome Completo</label>
+          <input type="text" id="nomeCompleto" formControlName="nomeCompleto" class="form-control"
+                 [class.is-invalid]="checkoutForm.get('nomeCompleto')?.invalid && checkoutForm.get('nomeCompleto')?.touched">
+          <div *ngIf="checkoutForm.get('nomeCompleto')?.invalid && checkoutForm.get('nomeCompleto')?.touched" class="invalid-feedback">
+            Nome completo é obrigatório.
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" formControlName="email" class="form-control"
+                 [class.is-invalid]="checkoutForm.get('email')?.invalid && checkoutForm.get('email')?.touched">
+          <div *ngIf="checkoutForm.get('email')?.errors?.['required'] && checkoutForm.get('email')?.touched" class="invalid-feedback">
+            Email é obrigatório.
+          </div>
+          <div *ngIf="checkoutForm.get('email')?.errors?.['email'] && checkoutForm.get('email')?.touched" class="invalid-feedback">
+            Email inválido.
+          </div>
+        </div>
+
+        <h5 class="mt-4">Informações do Cartão de Crédito Fictício</h5>
+        <app-card-display
+          [cardNumber]="checkoutForm.get('numeroCartao')?.valueChanges | async"
+          [cardHolderName]="checkoutForm.get('nomeNoCartao')?.valueChanges | async"
+          [expiryMonth]="checkoutForm.get('mesValidade')?.valueChanges | async"
+          [expiryYear]="checkoutForm.get('anoValidade')?.valueChanges | async">
+        </app-card-display>
+        <div class="mb-3">
+          <label for="numeroCartao" class="form-label">Número do Cartão (16 dígitos)</label>
+          <input type="text" id="numeroCartao" formControlName="numeroCartao" class="form-control"
+                 [class.is-invalid]="checkoutForm.get('numeroCartao')?.invalid && checkoutForm.get('numeroCartao')?.touched">
+          <div *ngIf="checkoutForm.get('numeroCartao')?.errors?.['required'] && checkoutForm.get('numeroCartao')?.touched" class="invalid-feedback">
+            Número do cartão é obrigatório.
+          </div>
+          <div *ngIf="checkoutForm.get('numeroCartao')?.errors?.['pattern'] && checkoutForm.get('numeroCartao')?.touched" class="invalid-feedback">
+            Número do cartão deve ter 16 dígitos.
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="nomeNoCartao" class="form-label">Nome no Cartão</label>
+          <input type="text" id="nomeNoCartao" formControlName="nomeNoCartao" class="form-control"
+                 [class.is-invalid]="checkoutForm.get('nomeNoCartao')?.invalid && checkoutForm.get('nomeNoCartao')?.touched">
+          <div *ngIf="checkoutForm.get('nomeNoCartao')?.invalid && checkoutForm.get('nomeNoCartao')?.touched" class="invalid-feedback">
+            Nome no cartão é obrigatório.
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="mesValidade" class="form-label">Mês</label>
+            <select id="mesValidade" formControlName="mesValidade" class="form-select"
+                    [class.is-invalid]="checkoutForm.get('mesValidade')?.invalid && checkoutForm.get('mesValidade')?.touched">
+              <option value="" disabled>Mês</option>
+              <option *ngFor="let mes of meses" [value]="mes">{{ mes < 10 ? '0' + mes : mes }}</option>
+            </select>
+            <div *ngIf="checkoutForm.get('mesValidade')?.invalid && checkoutForm.get('mesValidade')?.touched" class="invalid-feedback">
+              Mês é obrigatório.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="anoValidade" class="form-label">Ano</label>
+            <select id="anoValidade" formControlName="anoValidade" class="form-select"
+                    [class.is-invalid]="checkoutForm.get('anoValidade')?.invalid && checkoutForm.get('anoValidade')?.touched">
+              <option value="" disabled>Ano</option>
+              <option *ngFor="let ano of anos" [value]="ano">{{ ano }}</option>
+            </select>
+            <div *ngIf="checkoutForm.get('anoValidade')?.invalid && checkoutForm.get('anoValidade')?.touched" class="invalid-feedback">
+              Ano é obrigatório.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="cvv" class="form-label">CVV</label>
+            <input type="text" id="cvv" formControlName="cvv" class="form-control"
+                   [class.is-invalid]="checkoutForm.get('cvv')?.invalid && checkoutForm.get('cvv')?.touched">
+            <div *ngIf="checkoutForm.get('cvv')?.errors?.['required'] && checkoutForm.get('cvv')?.touched" class="invalid-feedback">
+              CVV é obrigatório.
+            </div>
+            <div *ngIf="checkoutForm.get('cvv')?.errors?.['pattern'] && checkoutForm.get('cvv')?.touched" class="invalid-feedback">
+              CVV inválido (3 ou 4 dígitos).
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+          <button type="button" class="btn btn-secondary me-2" (click)="modal.dismiss('cancel')">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="checkoutForm.invalid">Confirmar Compra</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+  <!-- Success Modal Content -->
+  <ng-template #successModalContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Compra Finalizada!</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body text-center">
+      <p>Seu pedido foi registrado com sucesso!</p>
+      <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="modal.close('Ok click')">Ok</button>
+    </div >
+  </ng-template>
+</div>
