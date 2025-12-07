@@ -8,12 +8,12 @@ export interface BuyerInfo {
 export interface CardInfo {
   numeroCartao: string;
   nomeNoCartao: string;
-  validade: string; // MM/AA
+  validade: string; 
   cvv: string;
 }
 
 export interface Order {
-  id: string; // Unique order ID
+  id: string; 
   dataPedido: Date;
   comprador: BuyerInfo;
   cartao: CardInfo;

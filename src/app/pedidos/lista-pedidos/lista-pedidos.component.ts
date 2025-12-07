@@ -16,7 +16,7 @@ export class ListaPedidosComponent implements OnInit {
   pedidos: Order[] = [];
   carregando: boolean = true;
   erro: string | null = null;
-  totalGeralPedidos: number = 0; // New property for total sum
+  totalGeralPedidos: number = 0; 
 
   constructor(
     private pedidoService: PedidoService,
@@ -32,7 +32,7 @@ export class ListaPedidosComponent implements OnInit {
     this.erro = null;
     try {
       this.pedidos = this.pedidoService.getPedidos();
-      this.totalGeralPedidos = this.pedidos.reduce((sum, pedido) => sum + pedido.valorTotal, 0); // Calculate total sum
+      this.totalGeralPedidos = this.pedidos.reduce((sum, pedido) => sum + pedido.valorTotal, 0);
       if (this.pedidos.length === 0) {
         this.erro = 'Nenhum pedido encontrado. Faça uma compra para ver seus pedidos aqui.';
       }
@@ -41,7 +41,7 @@ export class ListaPedidosComponent implements OnInit {
       this.erro = 'Não foi possível carregar seus pedidos. Tente novamente mais tarde.';
     } finally {
       this.carregando = false;
-      this.cdr.detectChanges(); // Ensure UI updates
+      this.cdr.detectChanges(); 
     }
   }
 }

@@ -2,12 +2,12 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { CommonModule } from '@angular/common';
 import { CarrinhoService } from '../carrinho.service';
 import { Observable } from 'rxjs';
-import { RouterModule } from '@angular/router'; // Import RouterModule
+import { RouterModule } from '@angular/router'; 
 
 @Component({
   selector: 'app-carrinho-contador',
   standalone: true,
-  imports: [CommonModule, RouterModule], // Add RouterModule here
+  imports: [CommonModule, RouterModule], 
   template: `
     <a routerLink="/carrinho" class="carrinho-badge-link">
       <i class="bi bi-cart"></i>
@@ -19,8 +19,8 @@ import { RouterModule } from '@angular/router'; // Import RouterModule
       </ng-container>
     </a>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush, // Use OnPush for performance
-  styleUrls: ['./carrinho-contador.component.scss'] // No specific styles for now
+  changeDetection: ChangeDetectionStrategy.OnPush, 
+  styleUrls: ['./carrinho-contador.component.scss'] 
 })
 export class CarrinhoContadorComponent implements OnInit {
   itemCount$: Observable<number>;
@@ -33,7 +33,7 @@ export class CarrinhoContadorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Force initial change detection to render cart item count
+   
     this.cdr.detectChanges();
   }
 }
