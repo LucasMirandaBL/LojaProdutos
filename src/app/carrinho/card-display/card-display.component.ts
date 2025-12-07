@@ -32,7 +32,7 @@ export class CardDisplayComponent implements OnChanges {
 
   private updateCardNumber(num: string): void {
     if (num) {
-      const cleanNum = num.replace(/\D/g, ''); // Remove non-digits
+      const cleanNum = num.replace(/\D/g, ''); 
       let formatted = '';
       for (let i = 0; i < 16; i++) {
         if (i > 0 && i % 4 === 0) {

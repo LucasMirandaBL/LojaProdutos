@@ -85,9 +85,9 @@ export class ProdutoFormularioComponent implements OnInit {
           this.erro = 'Não foi possível salvar o produto. Verifique os dados e tente novamente.';
           return of(produto);
         }),
-        finalize(() => { // Add finalize block here for saving
+        finalize(() => { 
           this.carregando = false;
-          this.cdr.detectChanges(); // Force change detection
+          this.cdr.detectChanges(); 
         })
       ).subscribe(() => {
         this.router.navigate(['/produtos']);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Order } from './pedido.model';
-import { v4 as uuidv4 } from 'uuid'; // For generating unique IDs
+import { v4 as uuidv4 } from 'uuid'; 
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +12,11 @@ export class PedidoService {
 
   private getOrdersFromLocalStorage(): Order[] {
     const ordersJson = localStorage.getItem(this.ORDERS_STORAGE_KEY);
-    // Parse order dates correctly as they are stored as strings
+    
     const orders = ordersJson ? JSON.parse(ordersJson) : [];
     return orders.map((order: Order) => ({
       ...order,
-      dataPedido: new Date(order.dataPedido) // Convert date string back to Date object
+      dataPedido: new Date(order.dataPedido) 
     }));
   }
 

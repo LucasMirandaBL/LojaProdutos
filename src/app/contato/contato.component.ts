@@ -16,14 +16,12 @@ export class ContatoComponent {
   constructor(private toastService: ToastService) {}
 
   onSubmit(): void {
-    // Here you would typically send the form data to a server
-    // For this example, we'll just show a success toast
+ 
     this.toastService.show('Mensagem enviada com sucesso! Entraremos em contato em breve.', {
       classname: 'bg-success text-light',
       delay: 5000
     });
     
-    // Reset the form
     this.contactForm.reset();
   }
 }

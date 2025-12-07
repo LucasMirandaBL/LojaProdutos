@@ -8,12 +8,12 @@ import { RouterModule, Router } from '@angular/router';
 import { PedidoService } from '../pedidos/pedido.service';
 import { Order, BuyerInfo, CardInfo } from '../pedidos/pedido.model';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { CardDisplayComponent } from './card-display/card-display.component'; // Import CardDisplayComponent
+import { CardDisplayComponent } from './card-display/card-display.component'; 
 
 @Component({
   selector: 'app-carrinho',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe, TitleCasePipe, RouterModule, ReactiveFormsModule, CardDisplayComponent], // Add CardDisplayComponent here
+  imports: [CommonModule, CurrencyPipe, TitleCasePipe, RouterModule, ReactiveFormsModule, CardDisplayComponent], 
   templateUrl: './carrinho.component.html',
   styleUrls: ['./carrinho.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,7 +25,7 @@ export class CarrinhoComponent implements OnInit {
   checkoutForm: FormGroup;
   meses: number[];
   anos: number[];
-  private activeModal: NgbModalRef | undefined; // To keep track of the opened modal
+  private activeModal: NgbModalRef | undefined;
 
   @ViewChild('checkoutModalContent') checkoutModalContent!: ElementRef;
   @ViewChild('successModalContent') successModalContent!: ElementRef;
@@ -36,11 +36,11 @@ export class CarrinhoComponent implements OnInit {
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private modalService: NgbModal // Inject NgbModal
+    private modalService: NgbModal 
   ) {
     this.carrinhoItens$ = this.carrinhoService.getCart();
     this.totalCarrinho$ = this.carrinhoService.getCartTotal();
-    this.totalCarrinho$.subscribe(total => console.log('Total do Carrinho (CarrinhoComponent):', total)); // Debug log
+    this.totalCarrinho$.subscribe(total => console.log('Total do Carrinho (CarrinhoComponent):', total)); 
     this.itemCount$ = this.carrinhoService.getCartItemCount();
 
     this.checkoutForm = this.fb.group({
@@ -79,13 +79,13 @@ export class CarrinhoComponent implements OnInit {
   limparCarrinho(): void {
     this.carrinhoService.clearCart();
     this.cdr.detectChanges();
-    if (this.activeModal) { // Close modal if open
+    if (this.activeModal) { 
       this.activeModal.dismiss('Cart cleared');
     }
   }
 
   iniciarFinalizacaoCompra(): void {
-    // Open the checkout form in a modal
+    
     this.activeModal = this.modalService.open(this.checkoutModalContent, { size: 'lg', backdrop: 'static' });
   }
 
@@ -116,25 +116,24 @@ export class CarrinhoComponent implements OnInit {
         valorTotal: currentTotal,
       };
       this.pedidoService.fazerPedido(newOrder);
-      this.carrinhoService.clearCart(); // Clear cart after order
+      this.carrinhoService.clearCart(); 
 
-      if (this.activeModal) { // Close checkout modal
+      if (this.activeModal) { 
         this.activeModal.close('Compra finalizada');
       }
 
-      // Open success modal
       this.modalService.open(this.successModalContent, { ariaLabelledBy: 'modal-basic-title' }).result.then(() => {
-        this.router.navigate(['/produtos']); // Navigate after success modal closes
+        this.router.navigate(['/produtos']); 
       }, () => {
-        this.router.navigate(['/produtos']); // Navigate even if modal is dismissed
+        this.router.navigate(['/produtos']); 
       });
 
-      this.checkoutForm.reset(); // Reset form data
-      this.cdr.detectChanges(); // Ensure UI updates
+      this.checkoutForm.reset(); 
+      this.cdr.detectChanges(); 
     } else {
       this.checkoutForm.markAllAsTouched();
-      // Display validation messages directly in the form, no alert needed
-      this.cdr.detectChanges(); // Ensure validation messages are shown
+      
+      this.cdr.detectChanges(); 
     }
   }
 
@@ -142,7 +141,7 @@ export class CarrinhoComponent implements OnInit {
     if (this.activeModal) {
       this.activeModal.dismiss('Cancel click');
     }
-    this.checkoutForm.reset(); // Clear form data
-    this.cdr.detectChanges(); // Update view
+    this.checkoutForm.reset(); 
+    this.cdr.detectChanges(); 
   }
 }
